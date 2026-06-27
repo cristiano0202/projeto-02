@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cálculo de Consumo | EcoWatt</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="page-background min-h-screen text-slate-900">
+  <header class="sticky top-0 z-50 eco-glass">
+    <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
+      <a href="index.html" class="flex items-center gap-3">
+        <div class="grid h-11 w-11 place-items-center rounded-2xl bg-gradient-to-br from-green-600 to-blue-600 text-white shadow-lg">⚡</div>
+        <div>
+          <p class="text-lg font-black text-slate-900">EcoWatt</p>
+          <p class="text-xs font-bold text-slate-500">Cálculo de Consumo</p>
+        </div>
+      </a>
+      <nav class="hidden items-center gap-6 font-bold text-slate-600 md:flex">
+        <a href="index.html" class="hover:text-blue-700">Início</a>
+        <a href="dashboard.html" class="hover:text-blue-700">Painel de Energia</a>
+      </nav>
+      <div class="hidden items-center gap-3 md:flex" data-auth-area></div>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+    <section class="mb-8">
+      <p class="eco-badge">Cálculo de consumo</p>
+      <h1 class="mt-4 text-3xl font-black tracking-tight text-slate-900 sm:text-5xl">Calcule consumo por equipamento ou pela conta de energia.</h1>
+      <p class="mt-4 max-w-3xl text-lg leading-8 text-slate-600">Use o modo por equipamento para descobrir o gasto de um aparelho específico. Use o modo conta mensal para estimar o consumo geral em kWh a partir do valor da fatura e da tarifa.</p>
+    </section>
+
+    <section class="mb-6 grid gap-3 sm:grid-cols-2">
+      <button type="button" data-mode-button="equipment" class="eco-btn-primary">Calcular por equipamento</button>
+      <button type="button" data-mode-button="bill" class="eco-btn-secondary">Calcular conta mensal</button>
+    </section>
+
+    <section class="grid gap-6 lg:grid-cols-[1fr_0.9fr] lg:items-start">
+      <form id="calculatorForm" class="eco-card p-6 sm:p-8">
+        <div data-equipment-mode>
+          <div class="mb-6">
+            <h2 class="text-2xl font-black text-slate-900">Dados do equipamento</h2>
+            <p class="mt-2 text-slate-600">A potência padrão é estimada. Use “Personalizado” se souber o valor real do aparelho.</p>
+          </div>
+
+          <div class="space-y-5">
+            <div>
+              <label for="equipment" class="eco-label">Equipamento</label>
+              <select id="equipment" name="equipment" class="eco-input">
+                <option value="">Carregando equipamentos...</option>
+              </select>
+            </div>
+
+            <div data-custom-power-box>
+              <label for="powerWatts" class="eco-label">Potência em Watts</label>
+              <input id="powerWatts" name="powerWatts" type="number" min="1" step="1" class="eco-input" placeholder="Ex: 5500" />
+              <p class="eco-help">Esse valor será preenchido automaticamente para equipamentos da lista.</p>
+            </div>
+
+            <div>
+              <p class="eco-label">Tempo de uso diário</p>
+              <div class="grid gap-4 sm:grid-cols-2">
+                <div>
+                  <input id="hours" name="hours" type="number" min="0" max="24" step="1" class="eco-input" value="0" placeholder="Horas" />
+                  <p class="eco-help">Horas por dia</p>
+                </div>
+                <div>
+                  <input id="minutes" name="minutes" type="number" min="0" max="59" step="1" class="eco-input" value="30" placeholder="Minutos" />
+                  <p class="eco-help">Minutos por dia</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="grid gap-4 sm:grid-cols-2">
+              <div>
+                <label for="days" class="eco-label">Dias de uso no mês</label>
+                <input id="days" name="days" type="number" min="1" max="31" step="1" class="eco-input" value="30" />
+              </div>
+              <div>
+                <label for="tariff" class="eco-label">Tarifa em R$/kWh</label>
+                <input id="tariff" name="tariff" type="number" min="0.01" step="0.01" class="eco-input" value="0.75" />
+                <p class="eco-help">Confira esse valor na conta de energia.</p>
+              </div>
+            </div>
+
+            <div>
+              <label for="totalBillKwh" class="eco-label">Consumo total da conta no mês em kWh <span class="font-normal text-slate-400">opcional</span></label>
+              <input id="totalBillKwh" name="totalBillKwh" type="number" min="0" step="0.01" class="eco-input" placeholder="Ex: 280" />
+              <p class="eco-help">Se preencher, o sistema mostra quantos % da conta esse equipamento representa.</p>
+            </div>
+          </div>
+        </div>
+
+        <div data-bill-mode class="hidden">
+          <div class="mb-6">
+            <h2 class="text-2xl font-black text-slate-900">Dados da conta de energia</h2>
+            <p class="mt-2 text-slate-600">Calcule o consumo geral do mês usando o valor da fatura e a tarifa. Se sua conta já mostrar o kWh, informe o kWh para uma leitura mais direta.</p>
+          </div>
+
+          <div class="space-y-5">
+            <div>
+              <label for="billCost" class="eco-label">Valor total da conta em R$</label>
+              <input id="billCost" name="billCost" type="number" min="0" step="0.01" class="eco-input" placeholder="Ex: 210.00" />
+              <p class="eco-help">Informe o valor total pago ou estimado no mês.</p>
+            </div>
+
+            <div>
+              <label for="billKwh" class="eco-label">Consumo informado na conta em kWh <span class="font-normal text-slate-400">opcional</span></label>
+              <input id="billKwh" name="billKwh" type="number" min="0" step="0.01" class="eco-input" placeholder="Ex: 280" />
+              <p class="eco-help">Se sua conta mostra o consumo em kWh, preencha aqui. Esse valor terá prioridade no cálculo.</p>
+            </div>
+
+            <div class="grid gap-4 sm:grid-cols-2">
+              <div>
+                <label for="billTariff" class="eco-label">Tarifa em R$/kWh</label>
+                <input id="billTariff" name="billTariff" type="number" min="0.01" step="0.01" class="eco-input" value="0.75" />
+              </div>
+              <div>
+                <label for="billDays" class="eco-label">Dias do período</label>
+                <input id="billDays" name="billDays" type="number" min="1" max="31" step="1" class="eco-input" value="30" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-6 grid gap-3 sm:grid-cols-2">
+          <button type="submit" id="calculateButton" class="eco-btn-primary">Calcular</button>
+          <button type="button" id="saveSimulationButton" class="eco-btn-secondary">Salvar simulação</button>
+        </div>
+      </form>
+
+      <aside class="eco-card p-6 sm:p-8">
+        <div>
+          <p class="eco-badge">Resultado estimado</p>
+          <h2 class="mt-4 text-2xl font-black text-slate-900" data-result-title>Impacto na conta</h2>
+          <p class="mt-2 text-slate-600" data-result-state>Escolha o modo de cálculo e preencha os dados.</p>
+        </div>
+
+        <div class="mt-6 grid gap-4">
+          <div class="rounded-3xl border border-blue-100 bg-blue-50 p-6">
+            <p class="font-bold text-blue-800" data-result-kwh-label>Consumo mensal</p>
+            <p class="result-number mt-2 text-4xl font-black text-blue-700 sm:text-5xl" data-result-kwh>0,00 kWh</p>
+          </div>
+
+          <div class="rounded-3xl border border-green-100 bg-green-50 p-6">
+            <p class="font-bold text-green-800" data-result-cost-label>Custo mensal</p>
+            <p class="result-number mt-2 text-4xl font-black text-green-700 sm:text-5xl" data-result-cost>R$ 0,00</p>
+          </div>
+
+          <div class="rounded-3xl border border-amber-100 bg-amber-50 p-6">
+            <p class="font-black text-amber-900" data-result-extra-title>Comparativo</p>
+            <p class="mt-3 leading-7 text-amber-900" data-result-extra>Preencha o consumo total da conta para comparar.</p>
+          </div>
+
+          <div class="rounded-3xl border border-slate-200 bg-slate-50 p-6">
+            <p class="font-black text-slate-900">Dica de economia</p>
+            <p class="mt-3 leading-7 text-slate-600" data-result-tip>Escolha um equipamento ou informe sua conta para receber uma orientação.</p>
+          </div>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <script src="js/api.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/calculator.js"></script>
+</body>
+</html>
