@@ -85,7 +85,10 @@
             <input id="billKwh" name="billKwh" type="text" placeholder="opcional">
           </div>
 
-          <button class="primary-button full" type="submit">Calcular e salvar</button>
+          <div class="form-actions full">
+            <button class="secondary-button" type="submit">Calcular</button>
+            <button class="primary-button" type="button" data-save-equipment disabled>Salvar</button>
+          </div>
         </form>
 
         <form class="calc-form is-hidden" data-calc-panel="monthly" data-monthly-form>
@@ -109,7 +112,10 @@
             <input id="periodDays" name="periodDays" type="number" min="1" value="30" required>
           </div>
 
-          <button class="primary-button full" type="submit">Calcular conta mensal</button>
+          <div class="form-actions full">
+            <button class="secondary-button" type="submit">Calcular</button>
+            <button class="primary-button" type="button" data-save-monthly disabled>Salvar</button>
+          </div>
         </form>
       </section>
     </section>
