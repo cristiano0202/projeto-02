@@ -1,24 +1,50 @@
 (function () {
   var FALLBACK_EQUIPMENTS = [
-    { name: "Chuveiro Eletrico", watts: 5500, tip: "Banhos de 8 a 10 minutos costumam reduzir bastante o impacto do chuveiro na conta." },
-    { name: "Ar-Condicionado", watts: 1500, tip: "Use entre 23 e 24 graus, mantenha filtros limpos e feche portas e janelas." },
-    { name: "Geladeira Duplex", watts: 250, tip: "Evite abrir a porta muitas vezes e confira a borracha de vedacao." },
-    { name: "Micro-ondas", watts: 1200, tip: "Use para aquecimentos curtos e evite deixar o aparelho em standby por longos periodos." },
-    { name: "Maquina de Lavar", watts: 500, tip: "Acumule roupas para usar a capacidade ideal e prefira ciclos economicos." },
-    { name: "Televisor LED", watts: 100, tip: "Ative economia de energia e desligue da tomada quando ficar muito tempo sem uso." },
-    { name: "Cooktop/Fogao Eletrico", watts: 6000, tip: "Use panelas adequadas ao tamanho da boca e tampe recipientes para aquecer mais rapido." },
-    { name: "Personalizado", watts: 0, tip: "Compare tempo de uso e potencia para encontrar o melhor ponto de economia." }
+    { id: null, name: "Chuveiro Eletrico",  tip: "Banhos de 8 a 10 minutos costumam reduzir bastante o impacto do chuveiro na conta." },
+    { id: null, name: "Ar-Condicionado", watts:  tip: "Use entre 23 e 24 graus, mantenha filtros limpos e feche portas e janelas." },
+    { id: null, name: "Geladeira Duplex", tip: "Evite abrir a porta muitas vezes e confira a borracha de vedacao." },
+    { id: null, name: "Micro-ondas",  tip: "Use para aquecimentos curtos e evite deixar o aparelho em standby por longos periodos." },
+    { id: null, name: "Maquina de Lavar", tip: "Acumule roupas para usar a capacidade ideal e prefira ciclos economicos." },
+    { id: null, name: "Televisor LED",  tip: "Ative economia de energia e desligue da tomada quando ficar muito tempo sem uso." },
+    { id: null, name: "Cooktop/Fogao Eletrico", watts: 6000, tip: "Use panelas adequadas ao tamanho da boca e tampe recipientes para aquecer mais rapido." },
+    { id: null, name: "Personalizado",  tip: "Compare tempo de uso e potencia para encontrar o melhor ponto de economia." }
   ];
-  function number(value) { return Number(String(value || "0").replace(",", ".")) || 0; }
-  function getCalculations() { return window.EcoWatt.getStored("ecowatt_calculations", []); }
-  function saveCalculation(record) { var list = getCalculations(); list.unshift(record); window.EcoWatt.setStored("ecowatt_calculations", list); }
+
+  var pendingEquipment = null;
+  var pendingMonthly = null;
+
+  function number(value) {
+    return Number(String(value || "0").replace(",", ".")) || 0;
+  }
+
+  function getCalculations() {
+    return window.EcoWatt.getStored("ecowatt_calculations", []);
+  }
+
+  function saveLocalCalculation(record) {
+    var list = getCalculations();
+    list.unshift(record);
+    window.EcoWatt.setStored("ecowatt_calculations", list);
+  }
+
+  function mapEquipment(item) {
+    return {
+      id: item.id || null,
+      name: item.name || item.nome,
+      watts: Number(item.default_power_watts || item.watts || item.potencia || 0),
+      tip: item.tip || item.dica || "Reduza o tempo de uso e acompanhe a tarifa da sua regiao."
+    };
+  }
+
   async function loadEquipments() {
     try {
       var apiItems = await window.EcoWattAPI.getEquipments();
-      if (Array.isArray(apiItems) && apiItems.length) return apiItems.map(function (item) { return { name: item.name || item.nome, watts: Number(item.watts || item.potencia || 0), tip: item.tip || item.dica || "Reduza o tempo de uso e acompanhe a tarifa da sua regiao." }; });
+      if (Array.isArray(apiItems) && apiItems.length) return apiItems.map(mapEquipment);
     } catch (error) {}
+
     return FALLBACK_EQUIPMENTS;
   }
+
   function tipFor(name, monthlyKwh) {
     var found = FALLBACK_EQUIPMENTS.find(function (item) { return item.name === name; });
     if (found) return found.tip;
@@ -26,18 +52,35 @@
     if (monthlyKwh > 180) return "Ha bom potencial de economia revisando horarios de pico e aparelhos em standby.";
     return "Seu consumo parece controlado. Continue monitorando habitos e tarifa mensal.";
   }
+
   function renderResult(data) {
     var result = document.querySelector("[data-result]");
     if (!result) return;
+
     result.classList.remove("is-hidden");
     result.querySelector("[data-result-kwh]").textContent = window.EcoWatt.formatKwh(data.kwh);
     result.querySelector("[data-result-cost]").textContent = window.EcoWatt.formatCurrency(data.cost);
     result.querySelector("[data-result-compare]").textContent = data.compare;
     result.querySelector("[data-result-tip]").textContent = data.tip;
   }
+
+  async function saveSimulation(record, payload) {
+    if (window.EcoWattAPI && window.EcoWattAPI.getToken()) {
+      await window.EcoWattAPI.createSimulation(payload);
+      return;
+    }
+
+    saveLocalCalculation(record);
+  }
+
+  function enable(button) {
+    if (button) button.disabled = false;
+  }
+
   function wireModeTabs() {
     var buttons = document.querySelectorAll("[data-calc-mode]");
     var panels = document.querySelectorAll("[data-calc-panel]");
+
     buttons.forEach(function (button) {
       button.addEventListener("click", function () {
         var mode = button.dataset.calcMode;
@@ -46,18 +89,31 @@
       });
     });
   }
+
   async function wireEquipmentForm() {
     var form = document.querySelector("[data-equipment-form]");
     var select = document.querySelector("[data-equipment-select]");
+    var saveButton = document.querySelector("[data-save-equipment]");
     if (!form || !select) return;
+
     var equipments = await loadEquipments();
-    select.innerHTML = equipments.map(function (item) { return '<option value="' + item.name + '" data-watts="' + item.watts + '">' + item.name + ' - ' + item.watts + 'W</option>'; }).join("");
-    function fillWatts() { form.watts.value = select.selectedOptions[0].dataset.watts || 0; }
+    select.innerHTML = equipments.map(function (item) {
+      return '<option value="' + item.name + '" data-id="' + (item.id || "") + '" data-watts="' + item.watts + '">' + item.name + ' - ' + item.watts + 'W</option>';
+    }).join("");
+
+    function fillWatts() {
+      form.watts.value = select.selectedOptions[0].dataset.watts || 0;
+    }
+
     select.addEventListener("change", fillWatts);
     fillWatts();
+
     form.addEventListener("submit", function (event) {
       event.preventDefault();
+
+      var selected = select.selectedOptions[0];
       var equipment = select.value;
+      var equipmentId = selected.dataset.id ? Number(selected.dataset.id) : null;
       var watts = number(form.watts.value);
       var hours = number(form.hours.value) + number(form.minutes.value) / 60;
       var days = number(form.days.value);
@@ -67,15 +123,50 @@
       var cost = kwh * tariff;
       var participation = billKwh > 0 ? (kwh / billKwh) * 100 : 0;
       var compare = billKwh > 0 ? equipment + " representa cerca de " + participation.toFixed(1).replace(".", ",") + "% do consumo informado na conta." : "Informe o consumo total da conta para ver a participacao deste equipamento.";
-      var record = { id: String(Date.now()), type: "equipamento", equipment: equipment, kwh: kwh, cost: cost, tariff: tariff, createdAt: new Date().toISOString(), tip: tipFor(equipment, kwh) };
-      saveCalculation(record);
-      renderResult({ kwh: kwh, cost: cost, compare: compare, tip: record.tip });
-      window.EcoWatt.showToast("Calculo salvo no painel.");
+      var tip = tipFor(equipment, kwh);
+      var record = { id: String(Date.now()), type: "equipamento", equipment: equipment, kwh: kwh, cost: cost, tariff: tariff, createdAt: new Date().toISOString(), tip: tip };
+
+      pendingEquipment = {
+        record: record,
+        payload: {
+          equipmentId: equipmentId,
+          equipmentName: equipment,
+          powerWatts: watts,
+          hoursPerDay: hours,
+          daysPerMonth: days,
+          tariff: tariff
+        }
+      };
+
+      renderResult({ kwh: kwh, cost: cost, compare: compare, tip: tip });
+      enable(saveButton);
+      window.EcoWatt.showToast("Calculo pronto. Clique em Salvar para guardar no painel.");
     });
+
+    if (saveButton) {
+      saveButton.addEventListener("click", async function () {
+        if (!pendingEquipment) {
+          window.EcoWatt.showToast("Calcule antes de salvar.");
+          return;
+        }
+
+        try {
+          await saveSimulation(pendingEquipment.record, pendingEquipment.payload);
+          pendingEquipment = null;
+          saveButton.disabled = true;
+          window.EcoWatt.showToast("Calculo salvo no painel.");
+        } catch (error) {
+          window.EcoWatt.showToast(error.message || "Nao foi possivel salvar o calculo.");
+        }
+      });
+    }
   }
+
   function wireMonthlyForm() {
     var form = document.querySelector("[data-monthly-form]");
+    var saveButton = document.querySelector("[data-save-monthly]");
     if (!form) return;
+
     form.addEventListener("submit", function (event) {
       event.preventDefault();
       var totalValue = number(form.totalValue.value);
@@ -88,11 +179,34 @@
       var averageWatts = (daily / 24) * 1000;
       var compare = "Media diaria: " + window.EcoWatt.formatKwh(daily) + ". Potencia media equivalente: " + averageWatts.toFixed(0) + " W.";
       var tip = tipFor("Conta mensal", kwh);
-      saveCalculation({ id: String(Date.now()), type: "conta mensal", equipment: "Conta mensal geral", kwh: kwh, cost: cost, tariff: tariff, createdAt: new Date().toISOString(), tip: tip });
+      var record = { id: String(Date.now()), type: "conta mensal", equipment: "Conta mensal geral", kwh: kwh, cost: cost, tariff: tariff, createdAt: new Date().toISOString(), tip: tip };
+
+      pendingMonthly = { record: record };
       renderResult({ kwh: kwh, cost: cost, compare: compare, tip: tip });
-      window.EcoWatt.showToast("Conta mensal salva no painel.");
+      enable(saveButton);
+      window.EcoWatt.showToast("Calculo pronto. Clique em Salvar para guardar no painel.");
     });
+
+    if (saveButton) {
+      saveButton.addEventListener("click", function () {
+        if (!pendingMonthly) {
+          window.EcoWatt.showToast("Calcule antes de salvar.");
+          return;
+        }
+
+        saveLocalCalculation(pendingMonthly.record);
+        pendingMonthly = null;
+        saveButton.disabled = true;
+        window.EcoWatt.showToast("Conta mensal salva no painel.");
+      });
+    }
   }
-  document.addEventListener("DOMContentLoaded", function () { wireModeTabs(); wireEquipmentForm(); wireMonthlyForm(); });
+
+  document.addEventListener("DOMContentLoaded", function () {
+    wireModeTabs();
+    wireEquipmentForm();
+    wireMonthlyForm();
+  });
+
   window.EcoWattCalculator = { FALLBACK_EQUIPMENTS: FALLBACK_EQUIPMENTS, getCalculations: getCalculations };
 })();
