@@ -1,0 +1,47 @@
+.signup-main {
+  grid-template-columns: minmax(0, 0.9fr) minmax(30rem, 1.1fr);
+}
+
+.signup-card {
+  max-width: 42rem;
+  width: 100%;
+  justify-self: end;
+}
+
+.signup-form {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.signup-full {
+  grid-column: 1 / -1;
+}
+
+.auth-input[type="select"],
+select.auth-input {
+  appearance: none;
+  background-image:
+    linear-gradient(45deg, transparent 50%, #94a3b8 50%),
+    linear-gradient(135deg, #94a3b8 50%, transparent 50%);
+  background-position:
+    calc(100% - 18px) 50%,
+    calc(100% - 12px) 50%;
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+}
+
+@media (max-width: 920px) {
+  .signup-main {
+    grid-template-columns: 1fr;
+  }
+
+  .signup-card {
+    max-width: none;
+    justify-self: stretch;
+  }
+}
+
+@media (max-width: 640px) {
+  .signup-form {
+    grid-template-columns: 1fr;
+  }
+}
