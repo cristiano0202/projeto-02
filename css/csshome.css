@@ -70,79 +70,40 @@
       height: 30px;
     }
 
-    .menu {
-      display: flex;
-      align-items: center;
-      gap: 22px;
-      color: var(--muted);
-      font-size: 14px;
-      font-weight: 700;
+    .tabs {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+      min-width: min(520px, 48vw);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 6px;
+      background: rgba(15, 23, 42, 0.54);
     }
 
-    .dots-menu {
-      position: relative;
-    }
-
-    .dots-menu summary {
-      width: 42px;
-      height: 42px;
+    .tab {
+      min-height: 40px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      color: var(--text);
-      background: rgba(15, 23, 42, 0.72);
-      font-size: 22px;
-      font-weight: 900;
-      line-height: 1;
-      cursor: pointer;
-      list-style: none;
-      transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;
-    }
-
-    .dots-menu summary::-webkit-details-marker {
-      display: none;
-    }
-
-    .dots-menu summary:hover {
-      border-color: rgba(78, 222, 163, 0.55);
-      background: rgba(37, 99, 235, 0.16);
-      transform: translateY(-1px);
-    }
-
-    .dots-panel {
-      position: absolute;
-      top: calc(100% + 10px);
-      right: 0;
-      z-index: 10;
-      min-width: 180px;
-      display: grid;
-      gap: 4px;
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      padding: 8px;
-      background: rgba(2, 6, 23, 0.94);
-      box-shadow: 0 22px 54px rgba(0, 0, 0, 0.42);
-      backdrop-filter: blur(14px);
-    }
-
-    .dots-panel a {
-      display: flex;
-      min-height: 40px;
-      align-items: center;
-      border-radius: 11px;
+      border-radius: 12px;
       padding: 0 12px;
       color: var(--muted);
       font-size: 14px;
-      font-weight: 800;
+      font-weight: 850;
       text-decoration: none;
-      transition: color 160ms ease, background 160ms ease;
+      transition: color 160ms ease, background 160ms ease, transform 160ms ease;
     }
 
-    .dots-panel a:hover {
+    .tab:hover {
       color: var(--text);
-      background: linear-gradient(135deg, rgba(78, 222, 163, 0.16), rgba(41, 153, 255, 0.16));
+      background: rgba(148, 163, 184, 0.1);
+    }
+
+    .tab.is-active {
+      color: #03111f;
+      background: linear-gradient(135deg, var(--green), var(--blue));
+      box-shadow: 0 12px 26px rgba(41, 153, 255, 0.22);
     }
 
     .pill {
@@ -155,6 +116,7 @@
       color: #03111f;
       background: linear-gradient(135deg, var(--green), var(--blue));
       font-weight: 900;
+      text-decoration: none;
     }
 
     .copy h2 {
@@ -198,6 +160,7 @@
       color: var(--text);
       font-weight: 800;
       background: rgba(15, 23, 42, 0.66);
+      text-decoration: none;
     }
 
     .visual {
@@ -301,10 +264,27 @@
 
   .nav {
     align-items: flex-start;
+    flex-direction: column;
   }
 
   .brand {
     max-width: 12rem;
+  }
+
+  .nav-actions {
+    width: 100%;
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .tabs {
+    min-width: 0;
+    width: 100%;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .nav .ghost {
+    width: fit-content;
   }
 
   .app-home {
