@@ -1,79 +1,97 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cadastro | EcoWatt</title>
+  <title>Criar conta | Luz Inteligente</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/csslogin.css">
+  <link rel="stylesheet" href="../css/csscadastro.css">
 </head>
-
 <body>
-  <header class="sticky top-0 z-40 border-b border-slate-200/80 bg-white/85 backdrop-blur">
-    <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
-      <a href="index.html" class="flex items-center gap-3 font-black text-xl">
-        <span class="brand-mark">EW</span>
-        <span>EcoWatt</span>
+  <div class="auth-shell">
+    <header class="auth-nav">
+      <a class="auth-brand" href="login.html">
+        <span class="auth-brand-mark">
+          <svg viewBox="0 0 64 64" fill="none" aria-hidden="true">
+            <path d="M32 14v18" stroke="#fff6c9" stroke-width="6" stroke-linecap="round"/>
+            <path d="M20.5 27.5A16 16 0 1 0 44 27.2" stroke="#fff6c9" stroke-width="5" stroke-linecap="round"/>
+            <circle cx="32" cy="39" r="10" fill="currentColor"/>
+            <path d="M36.5 4 29 19h8l-5.5 14L47 13h-8L36.5 4Z" fill="#ffd95a"/>
+          </svg>
+        </span>
+        <span class="auth-brand-text">
+          <strong>Luz</strong>
+          <strong class="brand-accent">Inteligente</strong>
+        </span>
       </a>
+    </header>
 
-      <nav class="desktop-nav flex items-center gap-6 text-sm font-bold text-slate-600">
-        <a href="index.html#beneficios">Beneficios</a>
-        <a href="index.html#publico">Publico</a>
-        <a href="calculadora.html">Calculo de Consumo</a>
-      </nav>
+    <main class="auth-main signup-main">
+      <section class="auth-copy">
+        <span class="auth-kicker"><span class="auth-kicker-dot"></span> Comece seu controle</span>
+        <h1 class="auth-title">Crie sua conta e acompanhe tudo em <span>um painel.</span></h1>
+        <p class="auth-subtitle">Salve seus calculos, compare aparelhos e veja com clareza onde a energia pesa mais no seu mes.</p>
 
-      <div class="flex items-center gap-2">
-        <a href="login.html" class="btn btn-secondary">Entrar</a>
-      </div>
-    </div>
-  </header>
+      </section>
 
-  <main class="mx-auto grid min-h-[78vh] max-w-6xl items-center px-4 py-12 sm:px-6 lg:px-8">
-    <section class="mx-auto w-full max-w-2xl card p-7">
-      <h1 class="text-3xl font-black">Criar conta</h1>
-      <p class="mt-2 text-slate-600">Organize seus calculos e acompanhe seu historico.</p>
+      <section class="auth-card signup-card" aria-label="Formulario de cadastro">
+        <div class="auth-panel">
+          <div class="auth-panel-header">
+            <h1 class="auth-panel-title">Criar conta</h1>
+            <p class="auth-panel-text">Preencha seus dados para acessar o Luz Inteligente.</p>
+          </div>
 
-      <form class="mt-6 grid gap-4 md:grid-cols-2" data-signup-form>
-        <div class="md:col-span-2">
-          <label class="field-label" for="name">Nome completo</label>
-          <input class="field" id="name" name="name" required>
+          <form class="auth-form signup-form" data-signup-form>
+            <div class="signup-full">
+              <label class="auth-label" for="name">Nome completo</label>
+              <input class="auth-input" id="name" name="name" type="text" placeholder="Seu nome" autocomplete="name" required>
+            </div>
+
+            <div>
+              <label class="auth-label" for="email">E-mail</label>
+              <input class="auth-input" id="email" name="email" type="email" placeholder="seu@email.com" autocomplete="email" required>
+            </div>
+
+            <div>
+              <label class="auth-label" for="accountType">Tipo de usuario</label>
+              <select class="auth-input" id="accountType" name="accountType" required>
+                <option value="residential">Residencial</option>
+                <option value="commercial">Comercial</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="auth-label" for="password">Senha</label>
+              <input class="auth-input" id="password" name="password" type="password" placeholder="Minimo 8 caracteres" autocomplete="new-password" required>
+            </div>
+
+            <div>
+              <label class="auth-label" for="confirmPassword">Confirmar senha</label>
+              <input class="auth-input" id="confirmPassword" name="confirmPassword" type="password" placeholder="Repita sua senha" autocomplete="new-password" required>
+            </div>
+
+            <button class="auth-submit signup-full" type="submit">Criar conta</button>
+          </form>
+
+          <div class="auth-foot">
+            <a href="login.html">Ja tenho conta</a>
+            <a href="login.html">Voltar ao login</a>
+          </div>
         </div>
+      </section>
+    </main>
 
-        <div>
-          <label class="field-label" for="email">E-mail</label>
-          <input class="field" id="email" name="email" type="email" required>
-        </div>
-
-        <div>
-          <label class="field-label" for="accountType">Tipo de usuario</label>
-          <select class="field" id="accountType" name="accountType" required>
-            <option value="residencial">Residencial</option>
-            <option value="comercial">Comercial</option>
-            <option value="pequeno_empreendedor">Pequeno empreendedor</option>
-          </select>
-        </div>
-
-        <div>
-          <label class="field-label" for="password">Senha</label>
-          <input class="field" id="password" name="password" type="password" minlength="8" required>
-        </div>
-
-        <div>
-          <label class="field-label" for="confirmPassword">Confirmar senha</label>
-          <input class="field" id="confirmPassword" name="confirmPassword" type="password" minlength="8" required>
-        </div>
-
-        <button class="btn btn-primary md:col-span-2" type="submit">Criar conta</button>
-      </form>
-
-      <a class="mt-5 inline-flex text-sm font-bold text-slate-600" href="login.html">Ja tenho conta</a>
-    </section>
-  </main>
+    <footer class="auth-footer">
+      <span>Luz Inteligente - eficiencia energetica e gestao simples.</span>
+    </footer>
+  </div>
 
   <script src="../js/api.js"></script>
   <script src="../js/main.js"></script>
   <script src="../js/auth.js"></script>
-  <script src="../js/calculator.js"></script>
-  <script src="../js/dashboard.js"></script>
 </body>
 </html>
