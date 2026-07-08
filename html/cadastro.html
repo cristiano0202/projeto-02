@@ -1,15 +1,79 @@
-<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Cadastro | EcoWatt</title><script src="https://cdn.tailwindcss.com"></script><link rel="stylesheet" href="../css/styles.css"></head><body>
-<header class="sticky top-0 z-40 border-b border-slate-200/80 bg-white/85 backdrop-blur">
-  <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
-    <a href="index.html" class="flex items-center gap-3 font-black text-xl"><span class="brand-mark">EW</span><span>EcoWatt</span></a>
-    <nav class="desktop-nav flex items-center gap-6 text-sm font-bold text-slate-600">
-      <a href="index.html#beneficios">Beneficios</a><a href="index.html#publico">Publico</a><a href="calculadora.html">Calculo de Consumo</a><a href="dashboard.html" data-auth-only>Painel</a>
-    </nav>
-    <div class="flex items-center gap-2"><a href="login.html" class="btn btn-secondary" data-guest-only>Entrar</a><a href="cadastro.html" class="btn btn-primary" data-guest-only>Criar conta</a><button class="btn btn-secondary is-hidden" data-auth-only data-logout>Sair</button></div>
-  </div>
-</header><main class="mx-auto grid min-h-[78vh] max-w-6xl items-center px-4 py-12 sm:px-6 lg:px-8"><section class="mx-auto w-full max-w-2xl card p-7"><h1 class="text-3xl font-black">Criar conta</h1><p class="mt-2 text-slate-600">Organize seus calculos e acompanhe seu historico.</p><form class="mt-6 grid gap-4 md:grid-cols-2" data-signup-form><div class="md:col-span-2"><label class="field-label" for="name">Nome completo</label><input class="field" id="name" name="name" required></div><div><label class="field-label" for="email">E-mail</label><input class="field" id="email" name="email" type="email" required></div><div><label class="field-label" for="accountType">Tipo de usuario</label><select class="field" id="accountType" name="accountType" required><option value="residencial">Residencial</option><option value="comercial">Comercial</option><option value="empreendedor">Pequeno empreendedor</option></select></div><div><label class="field-label" for="password">Senha</label><input class="field" id="password" name="password" type="password" required></div><div><label class="field-label" for="confirmPassword">Confirmar senha</label><input class="field" id="confirmPassword" name="confirmPassword" type="password" required></div><button class="btn btn-primary md:col-span-2" type="submit">Criar conta</button></form><a class="mt-5 inline-flex text-sm font-bold text-slate-600" href="login.html">Ja tenho conta</a></section></main>
-<script src="../js/api.js"></script>
-<script src="../js/main.js"></script>
-<script src="../js/auth.js"></script>
-<script src="../js/calculator.js"></script>
-<script src="../js/dashboard.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro | EcoWatt</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+
+<body>
+  <header class="sticky top-0 z-40 border-b border-slate-200/80 bg-white/85 backdrop-blur">
+    <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
+      <a href="index.html" class="flex items-center gap-3 font-black text-xl">
+        <span class="brand-mark">EW</span>
+        <span>EcoWatt</span>
+      </a>
+
+      <nav class="desktop-nav flex items-center gap-6 text-sm font-bold text-slate-600">
+        <a href="index.html#beneficios">Beneficios</a>
+        <a href="index.html#publico">Publico</a>
+        <a href="calculadora.html">Calculo de Consumo</a>
+      </nav>
+
+      <div class="flex items-center gap-2">
+        <a href="login.html" class="btn btn-secondary">Entrar</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="mx-auto grid min-h-[78vh] max-w-6xl items-center px-4 py-12 sm:px-6 lg:px-8">
+    <section class="mx-auto w-full max-w-2xl card p-7">
+      <h1 class="text-3xl font-black">Criar conta</h1>
+      <p class="mt-2 text-slate-600">Organize seus calculos e acompanhe seu historico.</p>
+
+      <form class="mt-6 grid gap-4 md:grid-cols-2" data-signup-form>
+        <div class="md:col-span-2">
+          <label class="field-label" for="name">Nome completo</label>
+          <input class="field" id="name" name="name" required>
+        </div>
+
+        <div>
+          <label class="field-label" for="email">E-mail</label>
+          <input class="field" id="email" name="email" type="email" required>
+        </div>
+
+        <div>
+          <label class="field-label" for="accountType">Tipo de usuario</label>
+          <select class="field" id="accountType" name="accountType" required>
+            <option value="residencial">Residencial</option>
+            <option value="comercial">Comercial</option>
+            <option value="pequeno_empreendedor">Pequeno empreendedor</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="field-label" for="password">Senha</label>
+          <input class="field" id="password" name="password" type="password" minlength="8" required>
+        </div>
+
+        <div>
+          <label class="field-label" for="confirmPassword">Confirmar senha</label>
+          <input class="field" id="confirmPassword" name="confirmPassword" type="password" minlength="8" required>
+        </div>
+
+        <button class="btn btn-primary md:col-span-2" type="submit">Criar conta</button>
+      </form>
+
+      <a class="mt-5 inline-flex text-sm font-bold text-slate-600" href="login.html">Ja tenho conta</a>
+    </section>
+  </main>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/main.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/calculator.js"></script>
+  <script src="../js/dashboard.js"></script>
+</body>
+</html>
