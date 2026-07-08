@@ -1,28 +1,58 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>EcoWatt | Eficiência Energética</title><script src="https://cdn.tailwindcss.com"></script><link rel="stylesheet" href="../css/styles.css"></head>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inicio | Luz Inteligente</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/home.css">
+</head>
 <body>
-<header class="sticky top-0 z-40 border-b border-slate-200/80 bg-white/85 backdrop-blur">
-  <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
-    <a href="index.html" class="flex items-center gap-3 font-black text-xl"><span class="brand-mark">EW</span><span>EcoWatt</span></a>
-    <nav class="desktop-nav flex items-center gap-6 text-sm font-bold text-slate-600">
-      <a href="index.html#beneficios">Beneficios</a><a href="index.html#publico">Publico</a><a href="calculadora.html">Calculo de Consumo</a><a href="dashboard.html" data-auth-only>Painel</a>
-    </nav>
-    <div class="flex items-center gap-2"><a href="login.html" class="btn btn-secondary" data-guest-only>Entrar</a><a href="cadastro.html" class="btn btn-primary" data-guest-only>Criar conta</a><button class="btn btn-secondary is-hidden" data-auth-only data-logout>Sair</button></div>
-  </div>
-</header>
-<main>
-  <section class="eco-grid">
-    <div class="mx-auto grid min-h-[76vh] max-w-7xl items-center gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:px-8">
-      <div><span class="status-pill mb-5">Energia inteligente para todos</span><h1 class="hero-title max-w-4xl">Entenda seu consumo de energia e descubra como pagar menos.</h1><p class="mt-6 max-w-2xl text-lg text-slate-600">Calcule gastos em kWh e reais, compare aparelhos e acompanhe seus resultados em um painel simples, claro e responsivo.</p><div class="mt-8 flex flex-wrap gap-3"><a class="btn btn-primary" href="calculadora.html">Calcular agora</a><a class="btn btn-secondary" href="#beneficios">Ver beneficios</a></div></div>
-      <div class="grid gap-4 sm:grid-cols-2"><div class="card p-6"><p class="text-sm font-bold text-slate-500">Economia orientada</p><p class="mt-3 text-4xl font-black text-green-600">kWh</p><p class="mt-2 text-slate-600">Transforme consumo tecnico em decisoes praticas.</p></div><div class="card p-6 sm:mt-10"><p class="text-sm font-bold text-slate-500">Controle financeiro</p><p class="mt-3 text-4xl font-black text-sky-600">R$</p><p class="mt-2 text-slate-600">Veja o impacto mensal de cada habito.</p></div></div>
-    </div>
-  </section>
-  <section id="beneficios" class="px-4 py-16 sm:px-6 lg:px-8"><div class="mx-auto max-w-7xl"><h2 class="section-title">Beneficios</h2><div class="mt-8 grid gap-5 md:grid-cols-3"><article class="card p-6"><h3 class="text-xl font-black">Clareza no consumo</h3><p class="mt-3 text-slate-600">Entenda quanto cada equipamento consome e quanto isso pesa na conta.</p></article><article class="card p-6"><h3 class="text-xl font-black">Decisoes de economia</h3><p class="mt-3 text-slate-600">Receba dicas objetivas para reduzir desperdicios sem perder conforto.</p></article><article class="card p-6"><h3 class="text-xl font-black">Historico organizado</h3><p class="mt-3 text-slate-600">Salve calculos e acompanhe os maiores custos no painel de energia.</p></article></div></div></section>
-  <section id="publico" class="bg-white px-4 py-16 sm:px-6 lg:px-8"><div class="mx-auto max-w-7xl"><h2 class="section-title">Publico-alvo</h2><div class="mt-8 grid gap-5 md:grid-cols-3"><article class="card p-6"><h3 class="text-xl font-black">Residencias</h3><p class="mt-3 text-slate-600">Familias que querem reduzir gastos e identificar aparelhos de alto impacto.</p></article><article class="card p-6"><h3 class="text-xl font-black">Comercios</h3><p class="mt-3 text-slate-600">Lojas, escritorios e prestadores que precisam controlar custos operacionais.</p></article><article class="card p-6"><h3 class="text-xl font-black">Pequenos empreendedores</h3><p class="mt-3 text-slate-600">Negocios que querem prever despesas e melhorar eficiencia.</p></article></div></div></section>
-</main><footer class="border-t border-slate-200 bg-slate-950 px-4 py-8 text-white"><div class="mx-auto flex max-w-7xl flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"><strong>EcoWatt</strong><span class="text-slate-300">Eficiência energetica, economia e gestao simples.</span></div></footer>
-<script src="../js/api.js"></script>
-<script src="../js/main.js"></script>
-<script src="../js/auth.js"></script>
-<script src="../js/calculator.js"></script>
-<script src="../js/dashboard.js"></script></body></html>
+  <main class="app-home">
+<div class="hero hero-1">
+          <nav class="nav">
+            <div class="brand">
+              <span class="mark">
+                <svg viewBox="0 0 64 64" fill="none" aria-hidden="true">
+                  <path d="M32 14v18" stroke="#fff6c9" stroke-width="6" stroke-linecap="round"/>
+                  <path d="M20.5 27.5A16 16 0 1 0 44 27.2" stroke="#fff6c9" stroke-width="5" stroke-linecap="round"/>
+                  <circle cx="32" cy="39" r="10" fill="currentColor"/>
+                </svg>
+              </span>
+              Luz Inteligente
+            </div>
+            <div class="nav-actions">
+              <details class="dots-menu">
+                <summary aria-label="Abrir menu">...</summary>
+                <div class="dots-panel">
+                  <a href="#beneficios">Beneficios</a>
+                  <a href="#publico">Publico</a>
+                  <a href="calculadora.html">Calculo</a>
+                  <a href="dashboard.html">Painel</a>
+                </div>
+              </details>
+              <span class="ghost">Sair</span>
+            </div>
+          </nav>
+          <div class="hero-body">
+            <div class="copy">
+              <h2>Controle sua energia com <span>clareza.</span></h2>
+              <p>Calcule consumo em kWh, veja o impacto em reais e acompanhe seus resultados em um painel simples.</p>
+              <div class="actions"><span class="pill">Novo calculo</span><span class="ghost">Ver painel</span></div>
+            </div>
+            <div class="visual">
+              <div class="orb"></div>
+              <div class="metric-card"><strong>22%</strong><span>economia estimada no mes</span></div>
+            </div>
+          </div>
+        </div>
+      
+  </main>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/main.js"></script>
+  <script src="../js/auth.js"></script>
+</body>
+</html>
