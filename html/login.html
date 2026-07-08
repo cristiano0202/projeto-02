@@ -1,64 +1,110 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Entrar | EcoWatt</title>
+  <title>Entrar | Luz Inteligente</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/login.css">
 </head>
-
 <body>
-  <header class="sticky top-0 z-40 border-b border-slate-200/80 bg-white/85 backdrop-blur">
-    <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
-      <a href="index.html" class="flex items-center gap-3 font-black text-xl">
-        <span class="brand-mark">EW</span>
-        <span>EcoWatt</span>
+  <div class="auth-shell">
+    <header class="auth-nav">
+      <a class="auth-brand" href="index.html">
+        <span class="auth-brand-mark">
+          <svg viewBox="0 0 64 64" fill="none" aria-hidden="true">
+            <path d="M32 14v18" stroke="#fff6c9" stroke-width="6" stroke-linecap="round"/>
+            <path d="M20.5 27.5A16 16 0 1 0 44 27.2" stroke="#fff6c9" stroke-width="5" stroke-linecap="round"/>
+            <circle cx="32" cy="39" r="10" fill="currentColor"/>
+            <path d="M36.5 4 29 19h8l-5.5 14L47 13h-8L36.5 4Z" fill="#ffd95a"/>
+          </svg>
+        </span>
+        <span class="auth-brand-text">
+          <strong>Luz</strong>
+          <strong class="brand-accent">Inteligente</strong>
+        </span>
       </a>
+      <a class="auth-nav-link" href="cadastro.html">Criar conta</a>
+    </header>
 
-      <nav class="desktop-nav flex items-center gap-6 text-sm font-bold text-slate-600">
-        <a href="index.html#beneficios">Beneficios</a>
-        <a href="index.html#publico">Publico</a>
-        <a href="calculadora.html">Calculo de Consumo</a>
-        <a href="dashboard.html" data-auth-only>Painel</a>
-      </nav>
+    <main class="auth-main">
+      <section class="auth-copy">
+        <span class="auth-kicker"><span class="auth-kicker-dot"></span> Painel inteligente</span>
+        <h1 class="auth-title">Entre para controlar seu consumo com <span>precisao.</span></h1>
+        <p class="auth-subtitle">Acesse seu painel, acompanhe seus calculos salvos e veja onde a energia pesa mais no seu mes.</p>
 
-      <div class="flex items-center gap-2">
-        <a href="cadastro.html" class="btn btn-primary">Criar conta</a>
-      </div>
-    </div>
-  </header>
+        <div class="auth-stats" aria-label="Resumo Luz Inteligente">
+          <div class="auth-stat">
+            <strong>kWh</strong>
+            <span>consumo monitorado</span>
+          </div>
+          <div class="auth-stat">
+            <strong>R$</strong>
+            <span>impacto mensal</span>
+          </div>
+          <div class="auth-stat">
+            <strong>API</strong>
+            <span>dados sincronizados</span>
+          </div>
+        </div>
+      </section>
 
-  <main class="mx-auto grid min-h-[78vh] max-w-6xl items-center px-4 py-12 sm:px-6 lg:px-8">
-    <section class="mx-auto w-full max-w-md card p-7">
-      <h1 class="text-3xl font-black">Entrar</h1>
-      <p class="mt-2 text-slate-600">Acesse seu painel de energia.</p>
+      <section class="auth-card" aria-label="Formulario de login">
+        <div class="auth-panel">
+          <div class="auth-panel-header">
+            <h1 class="auth-panel-title">Entrar</h1>
+            <p class="auth-panel-text">Use seu e-mail e senha para continuar no Luz Inteligente.</p>
+          </div>
 
-      <form class="mt-6 space-y-4" data-login-form>
-        <div>
-          <label class="field-label" for="email">E-mail</label>
-          <input class="field" id="email" name="email" type="email" required>
+          <form class="auth-form" data-login-form>
+            <div>
+              <label class="auth-label" for="email">E-mail</label>
+              <input class="auth-input" id="email" name="email" type="email" placeholder="seu@email.com" autocomplete="email" required>
+            </div>
+
+            <div>
+              <label class="auth-label" for="password">Senha</label>
+              <input class="auth-input" id="password" name="password" type="password" placeholder="Digite sua senha" autocomplete="current-password" required>
+            </div>
+
+            <button class="auth-submit" type="submit">Entrar</button>
+          </form>
+
+          <div class="auth-foot">
+            <a href="cadastro.html">Criar cadastro</a>
+            <a href="index.html">Voltar ao inicio</a>
+          </div>
         </div>
 
-        <div>
-          <label class="field-label" for="password">Senha</label>
-          <input class="field" id="password" name="password" type="password" required>
+        <div class="auth-preview" aria-hidden="true">
+          <div class="auth-preview-top">
+            <span>Economia estimada</span>
+            <span>+22%</span>
+          </div>
+          <div class="auth-bars">
+            <span style="height: 42%"></span>
+            <span style="height: 56%"></span>
+            <span style="height: 48%"></span>
+            <span style="height: 74%"></span>
+            <span style="height: 62%"></span>
+            <span style="height: 86%"></span>
+            <span style="height: 68%"></span>
+          </div>
         </div>
+      </section>
+    </main>
 
-        <button class="btn btn-primary w-full" type="submit">Entrar</button>
-      </form>
-
-      <div class="mt-5 flex flex-col gap-2 text-sm font-bold text-slate-600">
-        <a href="cadastro.html">Criar cadastro</a>
-        <a href="index.html">Voltar ao inicio</a>
-      </div>
-    </section>
-  </main>
+    <footer class="auth-footer">
+      <span>Luz Inteligente - eficiencia energetica e gestao simples.</span>
+    </footer>
+  </div>
 
   <script src="../js/api.js"></script>
   <script src="../js/main.js"></script>
   <script src="../js/auth.js"></script>
-  <script src="../js/calculator.js"></script>
-  <script src="../js/dashboard.js"></script>
 </body>
 </html>
