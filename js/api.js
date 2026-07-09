@@ -37,23 +37,14 @@
   async function request(path, options) {
     var token = getToken();
     var url = getBaseUrl() + (path.startsWith("/") ? path : "/" + path);
-
-    var headers = {
-      "Content-Type": "application/json"
-    };
+    var headers = { "Content-Type": "application/json" };
 
     if (token) {
       headers.Authorization = "Bearer " + token;
     }
 
-    var response = await fetch(url, {
-      headers: headers,
-      ...options
-    });
-
-    var data = await response.json().catch(function () {
-      return null;
-    });
+    var response = await fetch(url, Object.assign({ headers: headers }, options || {}));
+    var data = await response.json().catch(function () { return null; });
 
     if (!response.ok) {
       throw new Error(data && data.message ? data.message : "Erro ao conectar com a API.");
@@ -67,7 +58,6 @@
       method: "POST",
       body: JSON.stringify({ email: email, password: password })
     });
-
     setToken(data.token);
     return data;
   }
@@ -77,7 +67,6 @@
       method: "POST",
       body: JSON.stringify(user)
     });
-
     setToken(data.token);
     return data;
   }
@@ -100,17 +89,17 @@
   }
 
   async function deleteSimulation(id) {
-    return request("/simulations/" + id, {
-      method: "DELETE"
-    });
+    return request("/simulations/" + id, { method: "DELETE" });
   }
 
   window.EcoWattAPI = {
+    DEFAULT_API_URL: DEFAULT_API_URL,
     getBaseUrl: getBaseUrl,
     setBaseUrl: setBaseUrl,
     getToken: getToken,
     setToken: setToken,
     clearToken: clearToken,
+    request: request,
     login: login,
     register: register,
     getEquipments: getEquipments,
