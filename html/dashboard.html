@@ -1,15 +1,101 @@
-<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Calculadora | EcoWatt</title><script src="https://cdn.tailwindcss.com"></script><link rel="stylesheet" href="../css/styles.css"></head><body>
-<header class="sticky top-0 z-40 border-b border-slate-200/80 bg-white/85 backdrop-blur">
-  <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
-    <a href="index.html" class="flex items-center gap-3 font-black text-xl"><span class="brand-mark">EW</span><span>EcoWatt</span></a>
-    <nav class="desktop-nav flex items-center gap-6 text-sm font-bold text-slate-600">
-      <a href="index.html#beneficios">Beneficios</a><a href="index.html#publico">Publico</a><a href="calculadora.html">Calculo de Consumo</a><a href="dashboard.html" data-auth-only>Painel</a>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel | Luz Inteligente</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/cssdashboard.css">
+</head>
+<body>
+  <main class="dash-page" data-dashboard>
+    <nav class="dash-nav">
+      <a class="brand" href="index.html">
+        <span class="brand-mark">LI</span>
+        <span>Luz Inteligente</span>
+      </a>
+
+      <div class="tabs">
+        <a class="tab" href="index.html">Inicio</a>
+        <a class="tab" href="calculadora.html">Calculo</a>
+        <a class="tab is-active" href="dashboard.html">Painel</a>
+      </div>
+
+      <button class="logout" type="button" data-logout>Sair</button>
     </nav>
-    <div class="flex items-center gap-2"><a href="login.html" class="btn btn-secondary" data-guest-only>Entrar</a><a href="cadastro.html" class="btn btn-primary" data-guest-only>Criar conta</a><button class="btn btn-secondary is-hidden" data-auth-only data-logout>Sair</button></div>
-  </div>
-</header><main class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8"><div class="mb-8 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between"><div><h1 class="section-title">Calculo de Consumo</h1><p class="mt-2 max-w-2xl text-slate-600">Calcule por equipamento ou pela conta mensal geral.</p></div><a class="btn btn-secondary" href="dashboard.html">Ver painel</a></div><section class="grid gap-6 lg:grid-cols-[1fr_0.85fr]"><div class="card p-5 sm:p-7"><div class="mb-6 inline-flex rounded-full bg-slate-100 p-1"><button class="tab-button is-active" data-calc-mode="equipment">Por equipamento</button><button class="tab-button" data-calc-mode="monthly">Conta mensal geral</button></div><form class="grid gap-4 md:grid-cols-2" data-calc-panel="equipment" data-equipment-form><div class="md:col-span-2"><label class="field-label">Equipamento selecionado</label><select class="field" name="equipment" data-equipment-select></select></div><div><label class="field-label">Potencia em Watts</label><input class="field" name="watts" type="number" min="0" required></div><div><label class="field-label">Tarifa em R$/kWh</label><input class="field" name="tariff" type="number" min="0" step="0.01" value="0.95" required></div><div><label class="field-label">Horas de uso diario</label><input class="field" name="hours" type="number" min="0" value="1" required></div><div><label class="field-label">Minutos de uso diario</label><input class="field" name="minutes" type="number" min="0" max="59" value="0"></div><div><label class="field-label">Dias de uso no mes</label><input class="field" name="days" type="number" min="1" max="31" value="30" required></div><div><label class="field-label">Consumo total da conta em kWh opcional</label><input class="field" name="billKwh" type="number" min="0" step="0.01"></div><button class="btn btn-primary md:col-span-2" type="submit">Calcular equipamento</button></form><form class="grid gap-4 md:grid-cols-2 is-hidden" data-calc-panel="monthly" data-monthly-form><div><label class="field-label">Valor total da conta em R$</label><input class="field" name="totalValue" type="number" min="0" step="0.01" required></div><div><label class="field-label">Consumo informado na conta em kWh opcional</label><input class="field" name="informedKwh" type="number" min="0" step="0.01"></div><div><label class="field-label">Tarifa em R$/kWh</label><input class="field" name="tariff" type="number" min="0" step="0.01" value="0.95" required></div><div><label class="field-label">Dias do periodo</label><input class="field" name="periodDays" type="number" min="1" value="30" required></div><button class="btn btn-primary md:col-span-2" type="submit">Calcular conta mensal</button></form></div><aside class="card p-6 is-hidden" data-result><p class="text-sm font-black uppercase text-slate-500">Resultado</p><div class="mt-5 grid gap-4"><div class="metric rounded-lg bg-white p-4"><span class="text-sm font-bold text-slate-500">Consumo</span><strong class="mt-1 block text-3xl" data-result-kwh>0 kWh</strong></div><div class="metric rounded-lg bg-white p-4"><span class="text-sm font-bold text-slate-500">Custo mensal</span><strong class="mt-1 block text-3xl" data-result-cost>R$ 0,00</strong></div><div class="rounded-lg bg-sky-50 p-4"><strong>Comparativo</strong><p class="mt-2 text-slate-700" data-result-compare></p></div><div class="rounded-lg bg-green-50 p-4"><strong>Dica de economia</strong><p class="mt-2 text-slate-700" data-result-tip></p></div></div></aside></section></main>
-<script src="../js/api.js"></script>
-<script src="../js/main.js"></script>
-<script src="../js/auth.js"></script>
-<script src="../js/calculator.js"></script>
-<script src="../js/dashboard.js"></script></body></html>
+
+    <header class="dash-header">
+      <div>
+        <span class="kicker">Painel inteligente</span>
+        <h1>Seu consumo em <span>visao clara.</span></h1>
+        <p>Acompanhe seus calculos salvos, veja totais e descubra qual equipamento pesa mais na conta.</p>
+      </div>
+      <a class="primary-button" href="calculadora.html">Novo calculo</a>
+    </header>
+
+    <section class="dash-grid">
+      <aside class="profile-panel">
+        <div class="avatar">LI</div>
+        <h2 data-dash-name>Usuario</h2>
+        <p data-dash-type>Carregando perfil...</p>
+
+        <div class="mini-list">
+          <div class="mini-item">
+            <span>Total kWh</span>
+            <strong data-dash-kwh>0 kWh</strong>
+          </div>
+          <div class="mini-item">
+            <span>Custo previsto</span>
+            <strong data-dash-cost>R$ 0,00</strong>
+          </div>
+          <div class="mini-item">
+            <span>Maior gasto</span>
+            <strong data-dash-expensive>Nenhum calculo</strong>
+          </div>
+          <div class="mini-item">
+            <span>Calculos salvos</span>
+            <strong data-dash-count>0</strong>
+          </div>
+        </div>
+      </aside>
+
+      <section class="history-panel">
+        <div class="panel-head">
+          <div>
+            <h2>Historico recente</h2>
+            <p>Calculos salvos aparecem aqui depois que voce usa a calculadora.</p>
+          </div>
+          <a class="ghost-button" href="calculadora.html">Calcular</a>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Data</th>
+                <th>Equipamento</th>
+                <th>Tipo</th>
+                <th>kWh</th>
+                <th>Custo</th>
+                <th>Acao</th>
+              </tr>
+            </thead>
+            <tbody data-history-body>
+              <tr>
+                <td colspan="6">Carregando calculos...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/main.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/dashboard.js"></script>
+</body>
+</html>
