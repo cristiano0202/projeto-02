@@ -107,3 +107,37 @@
     updateHeaderUser: updateHeaderUser
   };
 })();
+function setScreenMode() {
+  const width = window.innerWidth;
+  const body = document.body;
+
+  body.classList.remove("mobile", "tablet", "desktop");
+
+  if (width <= 768) {
+    body.classList.add("mobile");
+  } else if (width <= 1024) {
+    body.classList.add("tablet");
+  } else {
+    body.classList.add("desktop");
+  }
+}
+
+function setAndroidHeight() {
+  const vh = window.innerHeight * 0.01;
+  document.documentElement.style.setProperty("--vh", `${vh}px`);
+}
+
+window.addEventListener("resize", () => {
+  setScreenMode();
+  setAndroidHeight();
+});
+
+window.addEventListener("orientationchange", () => {
+  setTimeout(() => {
+    setScreenMode();
+    setAndroidHeight();
+  }, 300);
+});
+
+setScreenMode();
+setAndroidHeight();
