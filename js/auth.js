@@ -1,16 +1,56 @@
 (function () {
   var CURRENT_USER_KEY = "ecowatt_current_user";
 
-  function getCurrentUser() {
+  function showMessage(message) {
+    if (window.EcoWatt && window.EcoWatt.showToast) {
+      window.EcoWatt.showToast(message);
+      return;
+    }
+
+    alert(message);
+  }
+
+  function getStored(key, fallback) {
+    if (window.EcoWatt && window.EcoWatt.getStored) {
+      return window.EcoWatt.getStored(key, fallback);
+    }
+
     try {
-      return JSON.parse(localStorage.getItem(CURRENT_USER_KEY));
+      var value = localStorage.getItem(key);
+      return value ? JSON.parse(value) : fallback;
     } catch (error) {
-      return null;
+      return fallback;
     }
   }
 
+  function setStored(key, value) {
+    if (window.EcoWatt && window.EcoWatt.setStored) {
+      window.EcoWatt.setStored(key, value);
+      return;
+    }
+
+    localStorage.setItem(key, JSON.stringify(value));
+  }
+
+  function getCurrentUser() {
+    return getStored(CURRENT_USER_KEY, null);
+  }
+
+  function normalizeUser(user) {
+    if (!user) return null;
+
+    return {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      accountType: user.userType || user.user_type || user.accountType,
+      createdAt: user.createdAt || user.created_at
+    };
+  }
+
   function setCurrentUser(user) {
-    localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(user));
+    setStored(CURRENT_USER_KEY, normalizeUser(user));
+
     if (window.EcoWatt && window.EcoWatt.updateHeaderUser) {
       window.EcoWatt.updateHeaderUser();
     }
@@ -18,16 +58,25 @@
 
   function logout() {
     localStorage.removeItem(CURRENT_USER_KEY);
-    window.EcoWattAPI.clearToken();
-    window.location.href = "index.html";
+
+    if (window.EcoWattAPI && window.EcoWattAPI.clearToken) {
+      window.EcoWattAPI.clearToken();
+    }
+
+    window.location.href = "login.html";
   }
 
   function toApiUserType(value) {
-    if (value === "empreendedor") {
-      return "pequeno_empreendedor";
-    }
+    var map = {
+      residential: "residential",
+      residencial: "residential",
+      commercial: "commercial",
+      comercial: "commercial",
+      empreendedor: "pequeno_empreendedor",
+      pequeno_empreendedor: "pequeno_empreendedor"
+    };
 
-    return value;
+    return map[value] || value || "residential";
   }
 
   function wireLogin() {
@@ -37,22 +86,16 @@
     form.addEventListener("submit", async function (event) {
       event.preventDefault();
 
-      var email = form.email.value.trim().toLowerCase();
-      var password = form.password.value;
-
       try {
-        var result = await window.EcoWattAPI.login(email, password);
+        var result = await window.EcoWattAPI.login(
+          form.email.value.trim().toLowerCase(),
+          form.password.value
+        );
 
-        setCurrentUser({
-          id: result.user.id,
-          name: result.user.name,
-          email: result.user.email,
-          accountType: result.user.userType
-        });
-
-        window.location.href = "dashboard.html";
+        setCurrentUser(result.user);
+        window.location.href = "index.html";
       } catch (error) {
-        alert(error.message || "Nao foi possivel fazer login.");
+        showMessage(error.message || "Nao foi possivel fazer login.");
       }
     });
   }
@@ -64,47 +107,41 @@
     form.addEventListener("submit", async function (event) {
       event.preventDefault();
 
-      var name = form.name.value.trim();
-      var email = form.email.value.trim().toLowerCase();
-      var userType = toApiUserType(form.accountType.value);
       var password = form.password.value;
       var confirmPassword = form.confirmPassword.value;
 
       if (password.length < 8) {
-        alert("A senha precisa ter no minimo 8 caracteres.");
+        showMessage("A senha precisa ter no minimo 8 caracteres.");
         return;
       }
 
       if (password !== confirmPassword) {
-        alert("As senhas nao conferem.");
+        showMessage("As senhas nao conferem.");
         return;
       }
 
       try {
         var result = await window.EcoWattAPI.register({
-          name: name,
-          email: email,
+          name: form.name.value.trim(),
+          email: form.email.value.trim().toLowerCase(),
           password: password,
-          userType: userType
+          userType: toApiUserType(form.accountType.value)
         });
 
-        setCurrentUser({
-          id: result.user.id,
-          name: result.user.name,
-          email: result.user.email,
-          accountType: result.user.userType
-        });
-
-        window.location.href = "dashboard.html";
+        setCurrentUser(result.user);
+        window.location.href = "index.html";
       } catch (error) {
-        alert(error.message || "Nao foi possivel criar a conta.");
+        showMessage(error.message || "Nao foi possivel criar a conta.");
       }
     });
   }
 
   function wireLogout() {
     document.querySelectorAll("[data-logout]").forEach(function (button) {
-      button.addEventListener("click", logout);
+      button.addEventListener("click", function (event) {
+        event.preventDefault();
+        logout();
+      });
     });
   }
 
