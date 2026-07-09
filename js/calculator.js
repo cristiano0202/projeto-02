@@ -1,13 +1,13 @@
 (function () {
   var FALLBACK_EQUIPMENTS = [
-    { id: null, name: "Chuveiro Eletrico",  tip: "Banhos de 8 a 10 minutos costumam reduzir bastante o impacto do chuveiro na conta." },
-    { id: null, name: "Ar-Condicionado", watts:  tip: "Use entre 23 e 24 graus, mantenha filtros limpos e feche portas e janelas." },
-    { id: null, name: "Geladeira Duplex", tip: "Evite abrir a porta muitas vezes e confira a borracha de vedacao." },
-    { id: null, name: "Micro-ondas",  tip: "Use para aquecimentos curtos e evite deixar o aparelho em standby por longos periodos." },
-    { id: null, name: "Maquina de Lavar", tip: "Acumule roupas para usar a capacidade ideal e prefira ciclos economicos." },
-    { id: null, name: "Televisor LED",  tip: "Ative economia de energia e desligue da tomada quando ficar muito tempo sem uso." },
+    { id: null, name: "Chuveiro Eletrico", watts: 5500, tip: "Banhos de 8 a 10 minutos costumam reduzir bastante o impacto do chuveiro na conta." },
+    { id: null, name: "Ar-Condicionado", watts: 1500, tip: "Use entre 23 e 24 graus, mantenha filtros limpos e feche portas e janelas." },
+    { id: null, name: "Geladeira Duplex", watts: 250, tip: "Evite abrir a porta muitas vezes e confira a borracha de vedacao." },
+    { id: null, name: "Micro-ondas", watts: 1200, tip: "Use para aquecimentos curtos e evite deixar o aparelho em standby por longos periodos." },
+    { id: null, name: "Maquina de Lavar", watts: 500, tip: "Acumule roupas para usar a capacidade ideal e prefira ciclos economicos." },
+    { id: null, name: "Televisor LED", watts: 100, tip: "Ative economia de energia e desligue da tomada quando ficar muito tempo sem uso." },
     { id: null, name: "Cooktop/Fogao Eletrico", watts: 6000, tip: "Use panelas adequadas ao tamanho da boca e tampe recipientes para aquecer mais rapido." },
-    { id: null, name: "Personalizado",  tip: "Compare tempo de uso e potencia para encontrar o melhor ponto de economia." }
+    { id: null, name: "Personalizado", watts: 0, tip: "Compare tempo de uso e potencia para encontrar o melhor ponto de economia." }
   ];
 
   var pendingEquipment = null;
